@@ -6,6 +6,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.simple.basic.command.BuilderVO;
 import com.simple.basic.command.BuilderVO.Builder;
+import com.simple.basic.command.BuilderVO2;
 import com.simple.basic.controller.HomeController;
 
 @SpringBootTest //스프링부트 테스트 클래스
@@ -31,6 +32,9 @@ public class BootTest {
 		BuilderVO vo = BuilderVO.builder().setAge(10).setName("홍길동").build();
 		System.out.println(vo.toString());
 		
+		
+		BuilderVO2 vo2=BuilderVO2.builder().age(20).name("이순신").build();
+		System.out.println(vo2.toString());
 		
 	}
 	
