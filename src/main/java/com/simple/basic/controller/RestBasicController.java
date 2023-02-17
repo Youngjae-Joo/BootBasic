@@ -35,8 +35,8 @@ public class RestBasicController {
 	
 	//객체를 담게 되면 application/json 형식으로 반환하게 된다.
 	/*
-	 * produces - 보내는 데이터에 대한 타입
-	 * consumes - 받는 데이터에 대한 타입
+	 * produces - 보내는 데이터에 대한 타입 (생략 json)
+	 * consumes - 받는 데이터에 대한 타입 (생략 json)
 	 */
 	@GetMapping(value="/getObject", produces="application/json")
 	public SimpleVO getObject() {
@@ -69,9 +69,10 @@ public class RestBasicController {
 	//get형식 값을 받는방법1 - 쿼리스트링 ?키=값
 	//http://localhost:8383/getKey?id=aaaa&name=홍길동
 	@GetMapping("/getKey")
-	public String getKey(@RequestParam("id")String id,@RequestParam("name")String name) {
+	public String getKey(@RequestParam("id")String id,@RequestParam("name")String name,@RequestParam("num")int num) {
 		System.out.println(id);
 		System.out.println(name);
+		System.out.println(num);
 		
 		return "success";
 	}
@@ -94,7 +95,7 @@ public class RestBasicController {
 	//{"num":30,"id":"kier","name":"키에르"}
 	
 	//cors-기본적으로 서버가 다르면 요청을 거절하는데(특정 서버의 요청에 대하여 허용)
-	//@CrossOrigin(*)을 하면 다 가능
+	//@CrossOrigin("*") or 필터를통한 자바설정
 	 @CrossOrigin("http://localhost:3000")
 	 @PostMapping("/getJson")
 	 public String getJson(@RequestBody SimpleVO vo) {
@@ -137,5 +138,31 @@ public class RestBasicController {
 		return entity;
 	}
 	
+	//jquery - ajax예시
+	@CrossOrigin({"http://127.0.0.1:5501","http://localhost:5501"})
+	@PostMapping("getAjax")
+	public Map<String, Object> getAjax(@RequestBody SimpleVO simpleVo){
+		
+		//받은 데이터
+		System.out.println(simpleVo.toString());
+		
+		//보내는데이터
+		Map<String, Object> map = new HashMap<>();
+		SimpleVO vo = new SimpleVO(1,"aaa123", "홍길동");
+		map.put("total", 100);
+		map.put("data", vo);
+		
+		return map;
+	}
+	
+	
+	//jquery - ajax실습
+	@CrossOrigin("*") //전부허용
+	@GetMapping("getAjax2/{topic}")
+	public String getAjax2(@PathVariable String topic){
+		//받은 데이터
+		System.out.println(topic);
+		return "success";
+	}
 
 }
