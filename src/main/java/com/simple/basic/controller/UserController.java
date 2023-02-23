@@ -17,14 +17,6 @@ public class UserController {
 	public String login() {
 		return "user/login";
 	}
-	@GetMapping("/mypage")
-	public String mypage() {
-		return "user/mypage";
-	}
-	@GetMapping("/info")
-	public String info() {
-		return "user/info";
-	}
 	
 	//로그인기능
 	@PostMapping("/login")
@@ -41,13 +33,30 @@ public class UserController {
 		
 		//로그인 성공-세션을 이용해서 인증값 
 		if(userVo!=null) {
-			session.setAttribute("id", userVo.getId()); //토큰
+			session.setAttribute("user_id", userVo.getId()); //토큰
 			return "redirect:/user/mypage"; //로그인성공
 		}
 		
 		return "user/login"; //로그인실패
 	}
 	
+	
+	//특정 유저들만 접근할 수 있는 페이지
+	@GetMapping("/mypage")
+	public String mypage(/*HttpSession session*/) {
+		//세션검사
+		//if(session.getAttribute("user_id")==null) {
+		//	return "redirect:/user/login";
+		//}
+		System.out.println("컨트롤러실행");
+		return "user/mypage";
+	}
+	
+	//특정 유저들만 접근할 수 있는 페이지
+	@GetMapping("/info")
+	public String info() {
+		return "user/info";
+	}
 	
 	
 	
